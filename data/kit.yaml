@@ -1,0 +1,83 @@
+antioch:
+  equipment:
+    rangedWeapons:
+      Bolt Action Rifle:
+        short: bar
+        cost: 10d
+        bayonetLug: true
+      Semi-automatic Rifle:
+        short: sar
+        cost: 15d
+        bayonetLug: true
+      Automatic Rifle:
+        short: ar
+        cost: 40d
+        limit: 1
+        bayonetLug: true
+      Pistol:
+        short: ps
+        cost: 6d
+      Automatic Pistol:
+        short: aps
+        cost: 20d
+        elite: true
+        limit: 3
+      Submachine gun:
+        short: smg
+        cost: 30d
+        limit: 2
+        bayonetLug: true
+        shieldCombo: true
+      Shotgun:
+        short: sg
+        cost: 10d
+        bayonetLug: true
+        shieldCombo: true
+      Automatic Shotgun:
+        short: asg
+        cost: 15d
+        limit: 2
+        bayonetLug: true
+        shieldCombo: true
+      Heavy Shotgun:
+        short: hsg
+        cost: 20d
+        limit: 2
+        shieldCombo: true
+      Sniper Rifle:
+        short: snr
+        cost: 35d
+        limit: 3
+      Grenade Launcher:
+        short: grl
+        cost: 30d
+        limit: 2
+      Grenades:
+        short: gr
+        cost: 7d
+      Incendiary Grenades:
+        short: igr
+        cost: 15d
+        limit: 2
+      Machine gun:
+        short: mg
+        cost: 50d
+        limit: 2
+      Flamethrower:
+        short: flt
+        cost: 30
+        limit: 3
+      Heavy Flamethrower:
+        short: hflt
+        cost: 55d
+        limit: 1
+      Satchel Charge:
+        short: scg
+        cost: 15d
+        limit: 3
+        consumable: true
+        perModel: 1
+    meleeWeapons: {}
+    armour: {}
+    equipment: {}
+

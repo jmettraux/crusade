@@ -1,7 +1,7 @@
 
 # crusade
 
-Tools for [Trench Crusade](https://www.trenchcrusade.com/).
+Tools for [Trench+Crusade](https://www.trenchcrusade.com/).
 
 
 ## license
