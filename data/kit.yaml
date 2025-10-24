@@ -112,5 +112,33 @@ antioch:
         cost: 15d
         only: wears Machine Armour
 
-    equipment: {}
+    equipment:
+      Combat Helmet:
+        cost: 5d
+      Gas Mask:
+        cost: 5d
+      Shovel:
+        cost: 5d
+      Medi-Kit:
+        cost: 5d
+      Musician's instrument:
+        cost: 15d
+        limit: 1
+        only: non-Elite
+      Martyrdom Pills:
+        cost: 1gp
+        consumable: true
+        only: Elite
+        limit: 2
+      Troop Flag:
+        cost: 1gp
+        limit: 1
+      Field Shrine:
+        cost: 2gp
+      Mountaineer Kit:
+        cost: 3d
+        limit: 4
+      Binoculars:
+        cost: 10d
+        only: Elite
 
