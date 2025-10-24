@@ -1,0 +1,7 @@
+
+weapons:
+  Pistol:
+    type: 1-handed
+    range: 12"
+    melee: true
+
