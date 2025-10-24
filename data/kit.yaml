@@ -17,8 +17,8 @@ antioch:
         cost: 6d
       Automatic Pistol:
         cost: 20d
-        elite: true
         limit: 3
+        only: Elite
       Submachine gun:
         cost: 30d
         limit: 2
@@ -91,6 +91,26 @@ antioch:
         limit: 1
         only: Combat Medic
 
-    armour: {}
+    armour:
+      Standard Armour:
+        cost: 15d
+      Reinforced Armour:
+        cost: 40d
+        only:
+          - Rlite
+          - Mechanized Heavy Infantry
+      Machine Armour:
+        cost: 50d
+        only: Elite
+        limit: { count: 1, excluding: "Mechanised Heavy Infantry" }
+      Engineer Body Armour:
+        cost: 45d
+        only: Combat Engineer
+      Trench Shield:
+        cost: 10d
+      Heavy Ballistic Shield:
+        cost: 15d
+        only: wears Machine Armour
+
     equipment: {}
 
