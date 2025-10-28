@@ -1,6 +1,6 @@
 
 //
-// magnet_bullet.scad
+// magnet_bullet.js
 //
 // via https://manifoldcad.org
 //
@@ -23,9 +23,10 @@ const bullet = function() {
   let r = br + 4 * o2;
   let body = cylinder(hh, r, r, 36, true);
   let head = cylinder(hh, r, 0, 36, true).translate(0, 0, hh);
-  return body.add(head);
-};
+  return body.add(head); };
 
 //let result = bullet();
-let result = bullet().subtract(magnetChamber().show());
+let result = bullet().subtract(magnetChamber());
+
+export default result;
 
