@@ -14,7 +14,7 @@ const bd = 3; // 3mm or 0.1in
 
 //console.log('h', bd + 4.5 * o2);
 
-const { cylinder } = Manifold;
+const { cylinder, cube, union } = Manifold;
 
 const magnetChamber = function() {
   let r = bd * 0.5 + 2 * o2;
@@ -27,8 +27,46 @@ const bullet = function() {
   let head = cylinder(h, r, 0, 36, true).translate(0, 0, h);
   return body.add(head); };
 
-//let result = bullet();
-let result = bullet().subtract(magnetChamber());
+const unit = function(x, y) {
+  return bullet().subtract(magnetChamber()).translate(x, y, 0);
+};
 
-export default result;
+const xx = 4;
+const yy = 3;
+
+const dx = bd + 10 * o2;
+
+const items = [];
+
+//
+// draw bullets
+
+for (let x = 0; x < xx; x++) {
+  for (let y = 0; y < yy; y++) {
+    items.push(unit(x * dx, y * dx));
+  }
+}
+
+//
+// draw support grid
+
+const dz = - 0.5 * (bd + 4.5 * o2) + 1 * o2;
+
+for (let x = 0; x < xx - 1; x++) {
+  for (let y = 0; y < yy; y++) {
+    items.push(
+      cube([ dx, 4 * o2, 2 * o2 ], true)
+        .translate((x + 0.5) * dx, y * dx, dz));
+  }
+}
+for (let x = 0; x < xx; x++) {
+  for (let y = 0; y < yy - 1; y++) {
+    items.push(
+      cube([ 4 * o2, dx, 2 * o2 ], true)
+        .translate(x * dx, (y + 0.5) * dx, dz));
+  }
+}
+
+
+export default union(items);
 
