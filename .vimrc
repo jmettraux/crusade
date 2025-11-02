@@ -6,6 +6,6 @@ set viminfo+=n./.viminfo
 
 "set runtimepath+=test/vim/
 
-"nnoremap <leader>t :!make bloodmarker<CR>
+"nnoremap <leader>t :!make blood<CR>
 nnoremap <leader>t :!make activated<CR>
 

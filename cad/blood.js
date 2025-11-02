@@ -1,9 +1,7 @@
 
+// blood.js
 //
-// blood_marker.js
-//
-// via https://manifoldcad.org
-//
+// 1 to 6 blood markers
 
 import { Manifold } from 'manifold-3d/manifoldCAD';
 
