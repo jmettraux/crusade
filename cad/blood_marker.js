@@ -45,17 +45,18 @@ var Manowar = (function() {
 
 const o2 = 0.2;
 const radius = 25; // almost an inch
-const axe_radius = 2.5;
+const axis_radius = 2.5;
+const cover_radius = 5;
 const one_height = 2.0;
 const csegs = 36; // circular segments
 
-const { cylinder, cube, union } = Manifold;
+const { cylinder, cube, union, hull } = Manifold;
 
 const bottom = function() {
 
   let h = one_height;
   let r = radius;
-  let ar = axe_radius + o2;
+  let ar = axis_radius + o2;
 
   return cylinder(h, r, r, csegs, true)
     .subtract(cylinder(2 * h, ar, ar, csegs, true));
@@ -63,10 +64,21 @@ const bottom = function() {
 
 const drop = function() {
 
-  return cube([ 5, 5, 5 ], true);
+  let h = one_height;
+  let r = radius;
+  let cr = cover_radius;
+  let ar = axis_radius;
+
+  return Manowar.slicedCylinder(h, r, r, 300, csegs, true) // pacman
+    .add(
+      cylinder(h, cr, cr, csegs, true)) // cover
+    .add(
+      cylinder(2 * h, ar, ar, csegs, true)
+        .translate([ 0, 0, 0.5 * h ])); // axis
 };
 
 export default union(
   bottom(),
-  drop().translate(50, 0, 0));
+  drop().translate(3.5 * radius, 0, 0));
+//export default drop();
 
