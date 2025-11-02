@@ -69,16 +69,22 @@ const drop = function() {
   let cr = cover_radius;
   let ar = axis_radius;
 
-  return Manowar.slicedCylinder(h, r, r, 300, csegs, true) // pacman
-    .add(
-      cylinder(h, cr, cr, csegs, true)) // cover
-    .add(
-      cylinder(2 * h, ar, ar, csegs, true)
-        .translate([ 0, 0, 0.5 * h ])); // axis
+  let pacman =
+    Manowar.slicedCylinder(h, r, r, 300, csegs, true) // pacman
+      .add(cylinder(h, cr, cr, csegs, true)) // cover
+  let axis =
+    cylinder(2 * h, ar, ar, csegs, true)
+      .translate([ 0, 0, 0.5 * h ]); // axis
+
+  let half = Manowar.slicedCylinder(h, r, r, 180, csegs, true);
+  let point = cylinder(h, 0.1, 0.1, csegs, true).translate([ 0, 2 * r, 0 ]);
+  let flame = hull(half, point).rotate([ 0, 0, 60 ]);
+
+  return union(pacman, axis, flame);
 };
 
+//export default drop();
 export default union(
   bottom(),
   drop().translate(3.5 * radius, 0, 0));
-//export default drop();
 
