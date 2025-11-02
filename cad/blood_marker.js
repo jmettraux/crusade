@@ -44,9 +44,9 @@ var Manowar = (function() {
 // unit is mm
 
 const o2 = 0.2;
-const radius = 25; // almost an inch
-const axis_radius = 2.5;
-const cover_radius = 5;
+const radius = 25 / 2; // almost an half an inch
+const axis_radius = 2.1;
+const cover_radius = 3.5;
 const one_height = 2.0;
 const csegs = 36; // circular segments
 
@@ -86,5 +86,5 @@ const drop = function() {
 //export default drop();
 export default union(
   bottom(),
-  drop().translate(3.5 * radius, 0, 0));
+  drop().translate(2.4 * radius, 0, 0));
 
