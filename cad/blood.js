@@ -72,8 +72,8 @@ const drop = function() {
     Manowar.slicedCylinder(h, r, r, 300, csegs, true) // pacman
       .add(cylinder(h, cr, cr, csegs, true)) // cover
   let axis =
-    cylinder(2 * h + o2, ar, ar, csegs, true)
-      .translate([ 0, 0, 0.5 * h + o1 ]); // axis
+    cylinder(h + o2 + 0.05, ar, ar, csegs, true)
+      .translate([ 0, 0, h + o1 ]); // axis
 
   let half = Manowar.slicedCylinder(h, r, r, 180, csegs, true);
   let point = cylinder(h, 0.1, 0.1, csegs, true).translate([ 0, 2 * r, 0 ]);
