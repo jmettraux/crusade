@@ -1,7 +1,7 @@
 
-// activated.js
+// batsu.js
 //
-// indicates "as already been activated"
+// indicates "as already been activated" or "not good"
 
 import { Manifold } from 'manifold-3d/manifoldCAD';
 
@@ -13,5 +13,5 @@ let h = 2.0;
 
 let bar = cube([ l, w, h ], true);
 
-export default bar.add(bar.rotate([ 0, 0, 90 ]));
+export default bar.add(bar.rotate([ 0, 0, 70 ]));
 
