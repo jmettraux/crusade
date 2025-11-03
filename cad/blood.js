@@ -42,6 +42,7 @@ var Manowar = (function() {
 // unit is mm
 
 const o2 = 0.2;
+const o1 = 0.1;
 const radius = 25 / 2; // almost an half an inch
 const axis_radius = 2.1;
 const cover_radius = 3.5;
@@ -53,7 +54,7 @@ const { cylinder, cube, union, hull } = Manifold;
 const bottom = function() {
 
   let h = one_height;
-  let r = radius;
+  let r = radius + o2;
   let ar = axis_radius + o2;
 
   return cylinder(h, r, r, csegs, true)
@@ -65,14 +66,14 @@ const drop = function() {
   let h = one_height;
   let r = radius;
   let cr = cover_radius;
-  let ar = axis_radius;
+  let ar = axis_radius + o1;
 
   let pacman =
     Manowar.slicedCylinder(h, r, r, 300, csegs, true) // pacman
       .add(cylinder(h, cr, cr, csegs, true)) // cover
   let axis =
-    cylinder(2 * h, ar, ar, csegs, true)
-      .translate([ 0, 0, 0.5 * h ]); // axis
+    cylinder(2 * h + o2, ar, ar, csegs, true)
+      .translate([ 0, 0, 0.5 * h + o1 ]); // axis
 
   let half = Manowar.slicedCylinder(h, r, r, 180, csegs, true);
   let point = cylinder(h, 0.1, 0.1, csegs, true).translate([ 0, 2 * r, 0 ]);
