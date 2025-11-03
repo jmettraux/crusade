@@ -54,7 +54,7 @@ const { cylinder, cube, union, hull } = Manifold;
 const bottom = function() {
 
   let h = one_height;
-  let r = radius + o2;
+  let r = radius + 3.0 * o2; // bottom radius is bigger for easy rolling
   let ar = axis_radius + o2;
 
   return cylinder(h, r, r, csegs, true)
@@ -66,7 +66,7 @@ const drop = function() {
   let h = one_height;
   let r = radius;
   let cr = cover_radius;
-  let ar = axis_radius + o1;
+  let ar = axis_radius + 0.94 * o1; // friction friction friction
 
   let pacman =
     Manowar.slicedCylinder(h, r, r, 300, csegs, true) // pacman
@@ -85,5 +85,5 @@ const drop = function() {
 //export default drop();
 export default union(
   bottom(),
-  drop().translate(2.4 * radius, 0, 0));
+  drop().translate(2.5 * radius, 0, 0));
 
