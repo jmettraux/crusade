@@ -58,8 +58,21 @@ const bottom = function() {
   let r = radius + 3.0 * o2; // bottom radius is bigger for easy rolling
   let ar = axis_radius + o1;
 
-  return cylinder(h, r, r, csegs, true)
-    .subtract(cylinder(2 * h, ar + slope, ar, csegs, true));
+  let bot =
+    cylinder(h, r, r, csegs, true)
+      .subtract(cylinder(2 * h, ar + slope, ar, csegs, true));
+
+  let groove =
+    cube([ 2.1 * radius, 0.5 * axis_radius, 0.5 * axis_radius ], true)
+      .rotate([ 45, 0, 0 ])
+      .translate([ 0, 0, 0.5 * one_height ])
+      .subtract(cylinder(2 * h, cover_radius, cover_radius, csegs, true));
+
+  for (let i = 0; i < 360; i += 60) {
+    bot = bot.subtract(groove.rotate([ 0, 0, i ]));
+  }
+
+  return bot;
 };
 
 const drop = function() {
