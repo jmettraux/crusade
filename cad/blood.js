@@ -56,7 +56,7 @@ const bottom = function() {
 
   let h = one_height;
   let r = radius + 3.0 * o2; // bottom radius is bigger for easy rolling
-  let ar = axis_radius + o2;
+  let ar = axis_radius + o1;
 
   return cylinder(h, r, r, csegs, true)
     .subtract(cylinder(2 * h, ar + slope, ar, csegs, true));
@@ -78,12 +78,12 @@ const drop = function() {
   let scube = cube([ 3 * ar, 1 * ar, 3 * h ], true);
 
   let axis =
-    cylinder(0.5 * ah, ar, ar, csegs, true)
+    cylinder(0.4 * ah, ar, ar, csegs, true)
       .add(
-        cylinder(0.5 * ah, ar, pr, csegs, true).translate([ 0, 0, 0.5 * ah ]))
-      .subtract(scube)
-      .subtract(scube.rotate([ 0, 0, 90 ]).translate([ ar, 0, 0 ]))
-      .subtract(scube.rotate([ 0, 0, 90 ]).translate([ -ar, 0, 0 ]))
+        cylinder(0.6 * ah, ar, pr, csegs, true).translate([ 0, 0, 0.5 * ah ]))
+      //.subtract(scube)
+      .subtract(scube.rotate([ 0, 0, 90 ]).translate([ ar, 1.5 * ar, 0 ]))
+      .subtract(scube.rotate([ 0, 0, 90 ]).translate([ -ar, -1.5 * ar, 0 ]))
       .rotate([ 0, 0, 90 + 60 ])
       .translate([ 0, 0, 0.5 * ah ]);
 
