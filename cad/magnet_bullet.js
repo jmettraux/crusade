@@ -5,6 +5,8 @@
 // via https://manifoldcad.org
 //
 
+import { Manifold } from 'manifold-3d/manifoldCAD';
+
 
 // unit is mm
 
