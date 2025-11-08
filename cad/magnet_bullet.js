@@ -18,7 +18,7 @@ const bd = 2 * br;
 const csegs = 36;
 
 const chamberRadius = 4.2 / 2;
-const chamberHeight = 2 * chamberRadius;
+const chamberHeight = 2 * chamberRadius + 0.2;
 const bulletRadius = 5.6 / 2;
 const bulletHeight = 1.9 * bulletRadius;
 const headHeight = 4.2;
@@ -26,12 +26,23 @@ const headHeight = 4.2;
 const { cylinder, union } = Manifold;
 
 let bullet =
-  cylinder(bulletHeight, bulletRadius, bulletRadius, csegs, true)
-    .add(
-      cylinder(headHeight, bulletRadius, 0.1, csegs, true)
-        .translate([ 0, 0, 0.5 * bulletHeight + 0.5 * headHeight ]));
-let chamber =
-  cylinder(chamberHeight, chamberRadius, chamberRadius, csegs, true);
+  cylinder(bulletHeight, bulletRadius, bulletRadius, csegs, true);
+    //.add(
+    //  cylinder(headHeight, bulletRadius, 0.1, csegs, true)
+    //    .translate([ 0, 0, 0.5 * bulletHeight + 0.5 * headHeight ]));
 
+let head =
+  cylinder(headHeight, bulletRadius, 0.1, csegs, true)
+head = head.subtract(head.translate([ 0, 0, -1.4 ]));
+
+bullet = bullet.add(
+  head.translate([ 0, 0, 0.5 * (bulletHeight + headHeight) ]));
+
+let chamber =
+  cylinder(chamberHeight, chamberRadius, chamberRadius, csegs, true)
+    .translate([ 0, 0, 0.5 ]);
+
+//export default head;
+//export default bullet;
 export default bullet.subtract(chamber);
 
