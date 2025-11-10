@@ -16,9 +16,9 @@ const o2 = 0.2;
 const br = 1.7;
 const bd = 2 * br;
 
-const chamberRadius = 4.2 / 2;
+const chamberRadius = 4.6 / 2;
 const chamberHeight = 2 * chamberRadius;
-const bulletRadius = 5.6 / 2;
+const bulletRadius = chamberRadius + 2.8 * 0.4;
 const bulletHeight = 1.9 * bulletRadius;
 
 const csegs = 36;
