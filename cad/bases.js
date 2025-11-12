@@ -11,7 +11,11 @@ const { cylinder } = Manifold;
 
 const o2 = 0.2; // mm
 
-const diameters = { M: 25, L: 32, XL: 40 };
+const diameters = {
+  M: 25, L: 32, XL: 40,
+  V: 50,  // Sultanate's Lion of Jabir
+  VI: 60, // Sultanate's Brazen Bull
+    };
 
 const slope = 0.42; // rtop = rbottom - slope;
 const thick = 2.1; // mm
@@ -46,15 +50,26 @@ const base = function(size) {
   let anti = cylinder(height, r0 - 1, r1 - 1, csegs, true);
   base = base.subtract(anti.translate([ 0, 0, -1 ]));
 
+  let angle =
+    d > 50 ? 360 / 12 :
+    d > 40 ? 360 / 9 :
+    360 / 6;
+
   base = base.add(magnetHole());
-  for (let a = 0; a < 360; a += 360 / 6) {
+    //
+  for (let a = 0; a < 360; a += angle) {
     base = base.add(
-      magnetHole().translate([ 0.63 * r0, 0, 0 ]).rotate([ 0, 0, a ]));
+      magnetHole().translate([ 0.70 * r0, 0, 0 ]).rotate([ 0, 0, a ]));
+  }
+    //
+  if (d > 32) for (let a = angle / 2; a < 360; a += angle) {
+    base = base.add(
+      magnetHole().translate([ 0.42 * r0, 0, 0 ]).rotate([ 0, 0, a ]));
   }
 
   return base;
 };
 
 //export default magnetHole();
-export default base('M');
+export default base('V');
 
