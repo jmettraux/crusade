@@ -11,9 +11,7 @@ const { cylinder } = Manifold;
 
 const o2 = 0.2; // mm
 
-const diameter = 25; // mm
-//const diameter = 32; // mm
-//const diameter = 40; // mm
+const diameters = { M: 25, L: 32, XL: 40 };
 
 const slope = 0.42; // rtop = rbottom - slope;
 const thick = 2.1; // mm
@@ -37,7 +35,9 @@ const magnetHole = function() {
   return tube.subtract(hole.translate([ 0, 0, -1 ]));
 };
 
-const base = function(d) {
+const base = function(size) {
+
+  let d = diameters[size] || 25;
 
   let r0 = 0.5 * d;
   let r1 = r0 - slope;
@@ -56,5 +56,5 @@ const base = function(d) {
 };
 
 //export default magnetHole();
-export default base(diameter);
+export default base('M');
 
