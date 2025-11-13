@@ -5,9 +5,9 @@
 // 32mm lieutenant, staff
 // 25mm yeomen, meat
 
-import { Manifold } from 'manifold-3d/manifoldCAD';
+import { Manifold, show, only } from 'manifold-3d/manifoldCAD';
 
-const { cylinder } = Manifold;
+const { cylinder, cube } = Manifold;
 
 const o2 = 0.2; // mm
 
@@ -39,6 +39,34 @@ const magnetHole = function() {
   return tube.subtract(hole.translate([ 0, 0, -1 ]));
 };
 
+let romthi = 0.4;
+let romlen = 5;
+  //
+const romW = function(r) {
+  let b = r.boundingBox(); return b.max[0] - b.min[0];
+};
+  //
+const romx = function() {
+  let bar = cube([ romthi, romlen, height ], true)
+  return bar.rotate([ 0, 0, 45 ]).add(bar.rotate([ 0, 0, -45 ]));
+};
+const romv = function() {
+};
+const romi = function() {
+  let bar = cube([ romthi, romlen, height ], true)
+};
+const roml = function() {
+};
+const rom = function(s) {
+  let roms = Array.from(s.toLowerCase()).map(c =>
+    c === 'x' ? romx() :
+    c === 'v' ? romv() :
+    c === 'l' ? roml() :
+    romi());
+console.log('rom()', roms[0].boundingBox());
+  return roms[0];
+};
+
 const base = function(size) {
 
   let d = diameters[size] || 25;
@@ -66,6 +94,10 @@ const base = function(size) {
     base = base.add(
       magnetHole().translate([ 0.42 * r0, 0, 0 ]).rotate([ 0, 0, a ]));
   }
+
+  base = base.add(
+    rom('x')
+      .translate([ 0.7 * r0, 0, 0 ]).rotate([ 0, 0, angle / 2 ]));
 
   return base;
 };
