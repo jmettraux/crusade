@@ -15,8 +15,8 @@ const SIZES = {
   M:  { d: 25, a: 360 /  6, f0: 0.7, f1: 0,   r: 'xxv',   rx: 0.0, ry:  3.9 },
   L:  { d: 32, a: 360 /  6, f0: 0.7, f1: 0,   r: 'xxxii', rx: 0.0, ry:  5.0 },
   XL: { d: 40, a: 360 /  6, f0: 0.7, f1: 0.4, r: 'xl',    rx: 1.4, ry: 14.0 },
-  V:  { d: 50, a: 360 /  9, f0: 0.7, f1: 0.4, r: 'l',     rx: 0.0, ry:  0.0 },
-  VI: { d: 60, a: 360 / 12, f0: 0.7, f1: 0.4, r: 'lx',    rx: 0.0, ry:  0.0 },
+  V:  { d: 50, a: 360 /  9, f0: 0.7, f1: 0.4, r: 'l',     rx: 1.0, ry:  4.2 },
+  VI: { d: 60, a: 360 / 12, f0: 0.7, f1: 0.4, r: 'lx',    rx: 1.0, ry:  5.6 },
     };
 
 const slope = 0.42; // rtop = rbottom - slope;
@@ -78,7 +78,8 @@ rom.l = function() {
     cube([ lh, rom.thk, height ], true)
       .translate([ 0, 0.5 * rom.hei - 0.5 * rom.thk, 0 ]),
     cube([ rom.thk, rom.hei, height ], true)
-      .translate([ -0.5 * lh, 0, 0 ]));
+      .translate([ -0.5 * lh, 0, 0 ]))
+        .translate([ -rom.thk, 0, 0 ]);
 };
 
 const roman = function(s) {
@@ -120,5 +121,5 @@ console.log(`ROMA: ${s.r}`);
 };
 
 //export default magnetHole();
-export default base('XL');
+export default base('VI');
 
