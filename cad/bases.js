@@ -12,11 +12,11 @@ const { cylinder, cube } = Manifold;
 const o2 = 0.2; // mm
 
 const SIZES = {
-  M:  { d: 25, a: 360 /  6, f0: 0.7, f1: 0,   r: 'xxv',   dx: 0, da: 0 },
-  L:  { d: 32, a: 360 /  6, f0: 0.7, f1: 0,   r: 'xxxii', dx: 0, da: 0 },
-  XL: { d: 40, a: 360 /  6, f0: 0.7, f1: 0.4, r: 'xl',    dx: 0, da: 0 },
-  V:  { d: 50, a: 360 /  9, f0: 0.7, f1: 0.4, r: 'l',     dx: 0, da: 0 },
-  VI: { d: 60, a: 360 / 12, f0: 0.7, f1: 0.4, r: 'lx',    dx: 0, da: 0 },
+  M:  { d: 25, a: 360 /  6, f0: 0.7, f1: 0,   r: 'xxv',   rf: 0.5, ra:  0 },
+  L:  { d: 32, a: 360 /  6, f0: 0.7, f1: 0,   r: 'xxxii', rf: 0.2, ra: 30 },
+  XL: { d: 40, a: 360 /  6, f0: 0.7, f1: 0.4, r: 'xl',    rf: 0.5, ra:  0 },
+  V:  { d: 50, a: 360 /  9, f0: 0.7, f1: 0.4, r: 'l',     rf: 0.5, ra:  0 },
+  VI: { d: 60, a: 360 / 12, f0: 0.7, f1: 0.4, r: 'lx',    rf: 0.5, ra:  0 },
     };
 
 const slope = 0.42; // rtop = rbottom - slope;
@@ -41,39 +41,33 @@ const magnetHole = function() {
   return tube.subtract(hole.translate([ 0, 0, -1 ]));
 };
 
-const romthi = 0.4;
-const romlen = 5;
-const romlen1 = Math.sqrt(0.5 * romlen * romlen);
-const romdx = 1.0;
+const rom = { thk: 0.4, len: 5 };
+rom.len1 = Math.sqrt(0.5 * rom.len * rom.len);
   //
-const romW = function(r) {
-  let b = r.boundingBox(); return b.max[0] - b.min[0]; };
+//const romW = function(r) {
+//  let b = r.boundingBox(); return b.max[0] - b.min[0]; };
 const romMaxX = function(r) {
   return r.boundingBox().max[0]; };
   //
-const romx = function() {
-  let bar = cube([ romthi, romlen, height ], true)
+rom.x = function() {
+  let bar = cube([ rom.thk, rom.len, height ], true)
   return bar.rotate([ 0, 0, 45 ]).add(bar.rotate([ 0, 0, -45 ]));
 };
-const romv = function() {
+rom.v = function() {
 };
-const romi = function() {
-  let bar = cube([ romthi, romlen1, height ], true)
+rom.i = function() {
+  let bar = cube([ rom.thk, rom.len1, height ], true)
   return bar;
 };
-const roml = function() {
+rom.l = function() {
 };
-const rom = function(s) {
+const roman = function(s) {
   return(
     Array.from(s.toLowerCase())
-      .map(c =>
-        c === 'x' ? romx() :
-        c === 'v' ? romv() :
-        c === 'l' ? roml() :
-        romi())
+      .map(c => (rom[c] || rom.i)())
       .reduce(
         function(r, c) {
-          return r.add(c.translate([ romdx + 0.5 * romW(r), 0, 0 ]));
+          return r.add(c.translate([ 2 * romMaxX(r) + 0.2, 0, 0 ]));
         })
           );
 };
@@ -103,12 +97,13 @@ const base = function(size) {
   }
 
   base = base.add(
-    rom('xii')
-      .translate([ 0.7 * r0, 0, 0 ]).rotate([ 0, 0, s.a / 2 ]));
+    roman(s.r)
+      .translate([ s.rf * r0, 0, 0 ])
+      .rotate([ 0, 0, s.ra ]));
 
   return base;
 };
 
 //export default magnetHole();
-export default base('V');
+export default base('L');
 
