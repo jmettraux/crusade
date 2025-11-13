@@ -7,12 +7,12 @@
 
 import { Manifold, show, only } from 'manifold-3d/manifoldCAD';
 
-const { cylinder, cube } = Manifold;
+const { cylinder, cube, union } = Manifold;
 
 const o2 = 0.2; // mm
 
 const SIZES = {
-  M:  { d: 25, a: 360 /  6, f0: 0.7, f1: 0,   r: 'xxv',   rx: 0.0, ry: 0.0 },
+  M:  { d: 25, a: 360 /  6, f0: 0.7, f1: 0,   r: 'xxv',   rx: 0.0, ry: 3.9 },
   L:  { d: 32, a: 360 /  6, f0: 0.7, f1: 0,   r: 'xxxii', rx: 0.0, ry: 5.0 },
   XL: { d: 40, a: 360 /  6, f0: 0.7, f1: 0.4, r: 'xl',    rx: 0.0, ry: 0.0 },
   V:  { d: 50, a: 360 /  9, f0: 0.7, f1: 0.4, r: 'l',     rx: 0.0, ry: 0.0 },
@@ -41,22 +41,36 @@ const magnetHole = function() {
   return tube.subtract(hole.translate([ 0, 0, -1 ]));
 };
 
-const rom = { thk: 0.6, len: 5 };
-rom.len1 = Math.sqrt(0.5 * rom.len * rom.len);
-  //
+const rom = { thk: 0.6, hei: 3.3 };
+
 const romW = function(r) {
   let b = r.boundingBox(); return b.max[0] - b.min[0]; };
 const romMaxX = function(r) {
   return r.boundingBox().max[0]; };
-  //
+const romRot = function(a) {
+  let ra = a * Math.PI / 180;
+  return({ dx: Math.tan(ra) * rom.hei, l: rom.hei / Math.cos(ra) }); };
+    // do wrap the `object` in parenthesis, else ManifoldCAD derails...
+
 rom.x = function() {
-  let bar = cube([ rom.thk, rom.len, height ], true)
-  return bar.rotate([ 0, 0, 45 ]).add(bar.rotate([ 0, 0, -45 ]));
+  let a = 45;
+  let ro = romRot(a);
+  let bar = cube([ rom.thk, ro.l, height ], true)
+  return bar.rotate([ 0, 0, a ]).add(bar.rotate([ 0, 0, -a ]));
 };
 rom.v = function() {
+  let a = 30;
+  let ro = romRot(a);
+  let fx = 0.44;
+  let bar = cube([ rom.thk, ro.l, height ], true);
+  let bar0 = bar.rotate([ 0, 0,  a ]).translate([  fx * ro.dx, 0, 0 ]);
+  let bar1 = bar.rotate([ 0, 0, -a ]).translate([ -fx * ro.dx, 0, 0 ]);
+  return union(bar0, bar1).translate([ 0, 0, 0 ]);
 };
 rom.i = function() {
-  return cube([ rom.thk, rom.len1, height ], true).translate([ - 2 * rom.thk - 0.2, 0, 0 ]);
+  return(
+    cube([ rom.thk, rom.hei, height ], true)
+      .translate([ - 2 * rom.thk - 0.2, 0, 0 ]));
 };
 rom.l = function() {
 };
@@ -69,13 +83,14 @@ const roman = function(s) {
           return(r
             .add(c
               .translate([ romW(r) + 0.2, 0, 0 ]))); });
-  return r.translate([ - 0.5 * romW(r), 0, 0 ]);
+  return show(r.translate([ - 0.5 * romW(r), 0, 0 ]));
 };
 
 const base = function(size) {
 
   let s = SIZES[size];
   if ( ! s) throw new Error(`found no size named "${size}"`);
+console.log(`ROMA: ${s.r}`);
 
   let r0 = 0.5 * s.d;
   let r1 = r0 - slope;
@@ -102,5 +117,5 @@ const base = function(size) {
 };
 
 //export default magnetHole();
-export default base('L');
+export default base('M');
 
