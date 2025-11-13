@@ -39,12 +39,15 @@ const magnetHole = function() {
   return tube.subtract(hole.translate([ 0, 0, -1 ]));
 };
 
-let romthi = 0.4;
-let romlen = 5;
+const romthi = 0.4;
+const romlen = 5;
+const romlen1 = Math.sqrt(0.5 * romlen * romlen);
+const romdx = 1.0;
   //
 const romW = function(r) {
-  let b = r.boundingBox(); return b.max[0] - b.min[0];
-};
+  let b = r.boundingBox(); return b.max[0] - b.min[0]; };
+const romMaxX = function(r) {
+  return r.boundingBox().max[0]; };
   //
 const romx = function() {
   let bar = cube([ romthi, romlen, height ], true)
@@ -53,18 +56,24 @@ const romx = function() {
 const romv = function() {
 };
 const romi = function() {
-  let bar = cube([ romthi, romlen, height ], true)
+  let bar = cube([ romthi, romlen1, height ], true)
+  return bar;
 };
 const roml = function() {
 };
 const rom = function(s) {
-  let roms = Array.from(s.toLowerCase()).map(c =>
-    c === 'x' ? romx() :
-    c === 'v' ? romv() :
-    c === 'l' ? roml() :
-    romi());
-console.log('rom()', roms[0].boundingBox());
-  return roms[0];
+  return(
+    Array.from(s.toLowerCase())
+      .map(c =>
+        c === 'x' ? romx() :
+        c === 'v' ? romv() :
+        c === 'l' ? roml() :
+        romi())
+      .reduce(
+        function(r, c) {
+          return r.add(c.translate([ romdx + 0.5 * romW(r), 0, 0 ]));
+        })
+          );
 };
 
 const base = function(size) {
@@ -96,7 +105,7 @@ const base = function(size) {
   }
 
   base = base.add(
-    rom('x')
+    rom('xii')
       .translate([ 0.7 * r0, 0, 0 ]).rotate([ 0, 0, angle / 2 ]));
 
   return base;
