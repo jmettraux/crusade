@@ -87,7 +87,8 @@ const roman = function(s) {
     Array.from(s.toLowerCase())
       .map(c => (rom[c] || rom.i)())
       .reduce((r, c) => r.add(c.translate([ romW(r) + 0.2, 0, 0 ])));
-  return show(r.translate([ - 0.5 * romW(r), 0, 0 ]));
+  return r.translate([ - 0.5 * romW(r), 0, 0 ]);
+  //return show(r.translate([ - 0.5 * romW(r), 0, 0 ]));
 };
 
 const base = function(size) {
