@@ -41,7 +41,7 @@ const magnetHole = function() {
   return tube.subtract(hole.translate([ 0, 0, -1 ]));
 };
 
-const rom = { thk: 0.6, hei: 3.3 };
+const rom = { thk: 3.5 * o2, hei: 3.5 };
 
 const romW = function(r) {
   let b = r.boundingBox(); return b.max[0] - b.min[0]; };
@@ -86,7 +86,7 @@ const roman = function(s) {
   let r =
     Array.from(s.toLowerCase())
       .map(c => (rom[c] || rom.i)())
-      .reduce((r, c) => r.add(c.translate([ romW(r) + 0.2, 0, 0 ])));
+      .reduce((r, c) => r.add(c.translate([ romW(r) + 2 * o2, 0, 0 ])));
   return r.translate([ - 0.5 * romW(r), 0, 0 ]);
   //return show(r.translate([ - 0.5 * romW(r), 0, 0 ]));
 };
@@ -122,5 +122,5 @@ console.log(`ROMA: ${s.r}`);
 };
 
 //export default magnetHole();
-export default base('VI');
+export default base('M');
 
