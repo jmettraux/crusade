@@ -12,14 +12,14 @@ const { cylinder, union } = Manifold;
 // unit is mm
 
 const o2 = 0.2;
-//const br = 1.7; // ball diameter
-const br = 1.7;
-const bd = 2 * br;
+const bd = 5 + o2;
+const br = bd / 2;
 
-const chamberRadius = 4.2 / 2;
-const chamberHeight = 2 * chamberRadius;
-const bulletRadius = chamberRadius + 2.8 * 0.4;
-const bulletHeight = 1.9 * bulletRadius;
+const chamberRadius = br + 3 * o2;
+const chamberHeight = chamberRadius + 2;
+
+const bulletRadius = chamberRadius + 1.6;
+const bulletHeight = chamberHeight + 1.6;
 
 const csegs = 36;
 
