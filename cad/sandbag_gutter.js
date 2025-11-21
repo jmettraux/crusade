@@ -22,17 +22,16 @@ const t2 = 0.5 * thickness;
 let gutter = function() {
 
   let g = cube([ gutterLength, gutterWidth, thickness ], true)
-    .translate([ 0, 0, -0.5 * bagHeight ]);
+    .translate([ 0, 0, - (0.5 * bagHeight + 0.5 * thickness) ]);
 
-  let teeth = show(cube([ bagLength, thickness, bagHeight ], true));
+  let teeth = cube([ bagLength, thickness, bagHeight ], true);
 
-  for (let i = 0; i < bagCount; i++) {
-    let x0 = -0.5 * gutterLength + 0.5 * bagLength;
-    let w = 0.5 * bagWidth + t2;
-    g = g
-      .add(teeth.translate([ x0 + i * (bagLength + gap), -w, 0 ]))
-      .add(teeth.translate([ x0 + i * (bagLength + gap), +w, 0 ]));
-  }
+  let x0 = -0.5 * gutterLength + 0.5 * bagLength;
+  let w = 0.5 * bagWidth + t2;
+
+  for (let i = 0; i < bagCount; i++) g = g
+    .add(teeth.translate([ x0 + i * (bagLength + gap), -w, 0 ]))
+    .add(teeth.translate([ x0 + i * (bagLength + gap), +w, 0 ]));
 
   return g;
 };
