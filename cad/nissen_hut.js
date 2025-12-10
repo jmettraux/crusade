@@ -6,7 +6,7 @@
 import { Manifold } from 'manifold-3d/manifoldCAD';
 const { cube, cylinder, union } = Manifold;
 
-  //103|  let base = cylinder(height, r0, r1, csegs, true);
+let o2 = 0.2;
 let width = 95;
 let height = 51;
 let length = 210;
@@ -17,6 +17,10 @@ let csegs = 36;
 let door_width = 25.8;
 let door_height = 32 + 1;
 let w_side = 0.28 * door_width;
+let roof_thickness = 3 * o2;
+
+//
+// base
 
 let base =
   cube([ width, length, base_height ], true);
@@ -52,9 +56,26 @@ let wall = function(opts = {}) {
   return w.translate([ 0, opts.dy || 0, 0 ]);
 }
 
-let hut = base
+base = base
   .add(wall({ dy:   0.5 * length, windows: true, window: true }))
   .add(wall({ dy: - 0.5 * length, door: true, windows: true }));
 
-export default hut;
+//
+// roof
+
+let r = function(radius) {
+  return cylinder(length + 0.4, radius, radius, csegs, true)
+    .rotate([ 90, 0, 0 ])
+    .subtract(
+      cube([ 1.5 * width, 1.5 * length, radius ], true)
+        .translate([ 0, 0, - 0.5 * radius - 0.5 * base_height ]));
+}
+
+let roof = r(radius + o2 + roof_thickness).subtract(r(radius + o2));
+
+//
+// done.
+
+//export default base;
+export default roof;
 
