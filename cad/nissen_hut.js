@@ -12,7 +12,8 @@ let height = 51;
 //let length = 210;
 let length = 190;
 let radius = width / 2;
-let base_height = 1.5;
+let base_height = 0.8;
+let base_depth = 20;
 let wall_thickness = 1;
 let csegs = 36;
 let door_width = 25.8;
@@ -21,10 +22,13 @@ let w_side = 0.28 * door_width;
 let roof_thickness = 3 * o2;
 
 //
-// base
+// walls
 
-let base =
-  cube([ width, length, base_height ], true);
+let door = function() {
+
+  return cube([ door_width, 1.5 * wall_thickness, door_height, 0 ], true)
+    .translate([ 0, 0, 0.5 * door_height ]);
+}
 
 let wall = function(opts = {}) {
 
@@ -35,9 +39,9 @@ let wall = function(opts = {}) {
         .translate([ 0, 0, - 0.5 * radius - 0.5 * base_height ]))
     .scale([ 1, 1, 1.1 ]);
 
-  if (opts.door) w = w.subtract(
-    cube([ door_width, 1.5 * wall_thickness, door_height, 0 ], true)
-      .translate([ 0, 0, 0.5 * door_height ]));
+  if (opts.door) w = w.subtract(door());
+    //cube([ door_width, 1.5 * wall_thickness, door_height, 0 ], true)
+    //  .translate([ 0, 0, 0.5 * door_height ]));
 
   let win = function(dx) {
     let sq = cube([ w_side, 1.5 * wall_thickness, w_side ], true);
@@ -55,12 +59,17 @@ let wall = function(opts = {}) {
   if (opts.window) w = w
     .subtract(win(0));
 
-  return w.translate([ 0, opts.dy || 0, 0 ]);
+  let base =
+    cube([ width, base_depth, base_height ], true)
+      .translate([ 0, 0.5 * base_depth, 0 ]);
+
+  return w.add(base);
 }
 
-base = base
-  .add(wall({ dy:   0.5 * length, windows: true, window: true }))
-  .add(wall({ dy: - 0.5 * length, door: true, windows: true }));
+let front_wall = wall({ door: true, windows: true });
+let back_wall = wall({ windows: true, window: true });
+//let door = ... TODO
+
 
 //
 // roof
@@ -80,6 +89,8 @@ let roof =
 //
 // done.
 
-//export default base;
-export default roof;
+//export default front_wall;
+export default back_wall;
+//export default door;
+//export default roof;
 
