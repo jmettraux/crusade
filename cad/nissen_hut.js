@@ -3,7 +3,7 @@
 //
 // T+C scale is 1:56
 
-import { Manifold } from 'manifold-3d/manifoldCAD';
+import { Manifold, show, only } from 'manifold-3d/manifoldCAD';
 const { cube, cylinder, union } = Manifold;
 
 let o2 = 0.2;
@@ -18,6 +18,10 @@ let wall_thickness = 1;
 let csegs = 36;
 let door_width = 25.8;
 let door_height = 32 + 10;
+let lintel_width = 1.1 * door_width;
+let lintel_depth = 4.2;
+let lintel_height = base_height;
+let hinge_radius = 1.0;
 let w_side = 0.28 * door_width;
 let roof_thickness = 3 * o2;
 
@@ -39,9 +43,28 @@ let wall = function(opts = {}) {
         .translate([ 0, 0, - 0.5 * radius - 0.5 * base_height ]))
     .scale([ 1, 1, 1.1 ]);
 
-  if (opts.door) w = w.subtract(door());
-    //cube([ door_width, 1.5 * wall_thickness, door_height, 0 ], true)
-    //  .translate([ 0, 0, 0.5 * door_height ]));
+  w = w.add(
+    cube([ width, base_depth, base_height ], true)
+      .translate([ 0, 0.5 * base_depth, 0 ]));
+        // the beginning of a base...
+
+  if (opts.door) {
+
+    let lintel =
+      cube([ lintel_width, lintel_depth, lintel_height ], true)
+        .translate([ 0, 0.5 * lintel_depth, door_height ]);
+    let hinge =
+      cylinder(1.5 * door_height, hinge_radius, hinge_radius, csegs, true)
+        .translate([
+          0,
+          wall_thickness + 1.5 * hinge_radius,
+          0.7 * door_height ]);
+
+    w = w.subtract(door())
+      .add(lintel)
+      .subtract(hinge.translate([  0.46 * door_width, 0, 0 ]))
+      .subtract(hinge.translate([ -0.46 * door_width, 0, 0 ]));
+  }
 
   let win = function(dx) {
     let sq = cube([ w_side, 1.5 * wall_thickness, w_side ], true);
@@ -59,11 +82,7 @@ let wall = function(opts = {}) {
   if (opts.window) w = w
     .subtract(win(0));
 
-  let base =
-    cube([ width, base_depth, base_height ], true)
-      .translate([ 0, 0.5 * base_depth, 0 ]);
-
-  return w.add(base);
+  return w;
 }
 
 let front_wall = wall({ door: true, windows: true });
@@ -89,8 +108,8 @@ let roof =
 //
 // done.
 
-//export default front_wall;
-export default back_wall;
+export default front_wall;
+//export default back_wall;
 //export default door;
 //export default roof;
 
