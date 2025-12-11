@@ -63,19 +63,20 @@ base = base
 //
 // roof
 
-let r = function(radius) {
+let r = function(radius, length) {
   return cylinder(length + 0.4, radius, radius, csegs, true)
     .rotate([ 90, 0, 0 ])
     .subtract(
       cube([ 1.5 * width, 1.5 * length, radius ], true)
         .translate([ 0, 0, - 0.5 * radius - 0.5 * base_height ]));
 }
-
-let roof = r(radius + o2 + roof_thickness).subtract(r(radius + o2));
+let roof =
+  r(radius + o2 + roof_thickness, length / 2)
+    .subtract(r(radius + o2, length / 2));
 
 //
 // done.
 
-//export default base;
-export default roof;
+export default base;
+//export default roof;
 
