@@ -44,7 +44,7 @@ let wall = function(opts = {}) {
     .scale([ 1, 1, 1.1 ]);
 
   w = w.add(
-    cube([ width, base_depth, base_height ], true)
+    cube([ 0.97 * width, base_depth, base_height ], true)
       .translate([ 0, 0.5 * base_depth, 0 ]));
         // the beginning of a base...
 
@@ -52,7 +52,7 @@ let wall = function(opts = {}) {
 
     let lintel =
       cube([ lintel_width, lintel_depth, lintel_height ], true)
-        .translate([ 0, 0.5 * lintel_depth, door_height ]);
+        .translate([ 0, 0.5 * lintel_depth, door_height + 0.5 * lintel_height ]);
     let hinge =
       cylinder(1.5 * door_height, hinge_radius, hinge_radius, csegs, true)
         .translate([
