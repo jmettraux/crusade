@@ -28,11 +28,49 @@ let roof_thickness = 3 * o2;
 //
 // walls
 
-let door = function() {
+let _window = function(dx = 0, center = false) {
 
-  return cube([ door_width, 1.5 * wall_thickness, door_height, 0 ], true)
+  let sq = cube([ w_side, 1.5 * wall_thickness, w_side ], true);
+  let d = 0.5 * 1.1 * w_side;
+
+  let w = union(
+    sq.translate([  d, 0, d ]),
+    sq.translate([ -d, 0, d ]),
+    sq.translate([  d, 0, -d ]),
+    sq.translate([ -d, 0, -d ]));
+
+  if ( ! center) w = w.translate([ dx, 0, door_height - 1.9 * w_side ]);
+
+  return w;
+};
+
+let door_frame = function() {
+
+  return cube([ door_width, 1.5 * wall_thickness, door_height ], true)
     .translate([ 0, 0, 0.5 * door_height ]);
 }
+
+let _door = function(opts = {}) {
+
+  let m = 2 * o2;
+  let hr = hinge_radius - 0.1;
+  let dt = 1.0 * wall_thickness;
+
+  let d =
+    cube([ door_width - m, dt, door_height - m ], true)
+      .translate([ 0, hr - 0.5 * dt, 0 ]);
+  let h =
+    cylinder(1.05 * door_height, hr, hr, csegs, true)
+      .translate([ 0.5 * door_width - hr, 0, 0 ]);
+
+  d = d.add(h);
+
+  if (opts.window) d = d
+    .subtract(_window(0, true).translate([ 0, 0.5 * hr, 0.25 * door_height ]));
+
+  return d.translate([ 0, 0, 0.5 * door_height ]);
+}
+let door = _door({ window: true });
 
 let wall = function(opts = {}) {
 
@@ -60,34 +98,26 @@ let wall = function(opts = {}) {
           wall_thickness + 1.5 * hinge_radius,
           0.7 * door_height ]);
 
-    w = w.subtract(door())
+    w = w.subtract(door_frame())
       .add(lintel)
       .subtract(hinge.translate([  0.46 * door_width, 0, 0 ]))
       .subtract(hinge.translate([ -0.46 * door_width, 0, 0 ]));
-  }
 
-  let win = function(dx) {
-    let sq = cube([ w_side, 1.5 * wall_thickness, w_side ], true);
-    let d = 0.5 * 1.1 * w_side;
-    return union(
-      sq.translate([  d, 0, d ]),
-      sq.translate([ -d, 0, d ]),
-      sq.translate([  d, 0, -d ]),
-      sq.translate([ -d, 0, -d ]),
-    ).translate([ dx, 0, door_height - 1.9 * w_side ]);
-  };
+    //w = w.add(
+    //  show(door()
+    //    .translate([ 0, wall_thickness + 1.5 * hinge_radius, 0 ])));
+  }
   if (opts.windows) w = w
-    .subtract(win( 0.24 * width))
-    .subtract(win(-0.24 * width));
+    .subtract(_window( 0.24 * width))
+    .subtract(_window(-0.24 * width));
   if (opts.window) w = w
-    .subtract(win(0));
+    .subtract(_window(0));
 
   return w;
 }
 
 let front_wall = wall({ door: true, windows: true });
 let back_wall = wall({ windows: true, window: true });
-//let door = ... TODO
 
 
 //
@@ -108,8 +138,8 @@ let roof =
 //
 // done.
 
-export default front_wall;
+//export default front_wall;
 //export default back_wall;
-//export default door;
+export default door;
 //export default roof;
 
