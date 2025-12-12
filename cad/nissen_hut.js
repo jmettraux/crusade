@@ -10,7 +10,7 @@ let o2 = 0.2;
 let width = 95;
 let height = 51;
 //let length = 210;
-let length = 190;
+let half_length = 100;
 let radius = width / 2;
 let base_height = 0.8;
 let base_depth = 20;
@@ -132,14 +132,14 @@ let r = function(radius, length) {
     .scale([ 1, 1, 1.1 ]);
 }
 let roof =
-  r(radius + o2 + roof_thickness, length / 2)
-    .subtract(r(radius + o2, length / 2));
+  r(radius + o2 + roof_thickness, half_length)
+    .subtract(r(radius + o2, half_length));
 
 //
 // done.
 
-export default front_wall;
+//export default front_wall;
 //export default back_wall;
 //export default door;
-//export default roof;
+export default roof;
 
