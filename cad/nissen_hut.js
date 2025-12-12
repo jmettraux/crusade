@@ -95,7 +95,7 @@ let wall = function(opts = {}) {
       cylinder(1.5 * door_height, hinge_radius, hinge_radius, csegs, true)
         .translate([
           0,
-          wall_thickness + 1.5 * hinge_radius,
+          wall_thickness + 0.8 * hinge_radius,
           0.7 * door_height ]);
 
     w = w.subtract(door_frame())
@@ -138,8 +138,8 @@ let roof =
 //
 // done.
 
-//export default front_wall;
+export default front_wall;
 //export default back_wall;
-export default door;
+//export default door;
 //export default roof;
 
