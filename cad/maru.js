@@ -15,3 +15,5 @@ let cs = 36; // csegments
 export default
   cylinder(h, r1, r1, cs, true).subtract(cylinder(2 * h, r0, r0, cs, true));
 
+// print in army green?
+
