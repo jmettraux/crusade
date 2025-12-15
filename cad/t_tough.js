@@ -44,9 +44,12 @@ const nw_f = [ -w2, -h3, 0 ];
 const cp = [ -0.75 * w2, - 0.5 * h3, 0 ];
 const pit = [ - t_waist / 2, -bar_thickness, 0 ];
 
-const under = Manowar.bezierPoints([ nw_f, cp, pit ], 6);
-const underPnts = under.map(p => pnt.translate(p));
-const underHull = Manowar.chainedHull(underPnts);
+let under = Manowar.bezierPoints([ nw_f, cp, pit ], 6);
+let underPnts = under.map(p => pnt.translate(p));
+underPnts.push(north);
+underPnts.push(northWest);
+underPnts.push(underPnts[0]);
+let underHull = Manowar.chainedHull(underPnts);
 
 export default underHull;
 
