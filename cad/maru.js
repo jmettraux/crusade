@@ -8,7 +8,7 @@ import { Manifold } from 'manifold-3d/manifoldCAD';
 const { cylinder } = Manifold;
 
 let r1 = 25 / 2;
-let r0 = 0.77 * r1;
+let r0 = 0.7 * r1;
 let h = 2.0;
 let cs = 36; // csegments
 
