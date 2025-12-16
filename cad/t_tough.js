@@ -4,8 +4,8 @@
 import { Manifold } from 'manifold-3d/manifoldCAD';
 
 // ** manowar 0.9.0 **
-// 57c2493d64fd93ae929761a7dc1b6a8d648e1888
-// 2025-12-15 17:54:44 +0900
+// 9c075bbb4b583986ad6a4fd64364b06fea8e7854
+// 2025-12-16 20:35:32 +0900
 var Manowar = (function() {"use strict";this.VERSION = '0.9.0';let self = this;
   let slicedCylinder = function(height, radiusLo, radiusHi, angle, circularSegments, center) {let h1 = 1.5 * height;let rr = Math.max(radiusLo, radiusHi) + 0.2;let cyl = Manifold.cylinder(height, radiusLo, radiusHi, circularSegments, center);let cub = Manifold.cube([ rr, rr, h1 ], true).translate([ rr / 2, rr / 2, 0 ]);let qua = Manifold.intersection(cyl, cub);let sli = angle % 90;let ang = angle - sli;let pieces = [];let a = 0;for (; a < ang; a += 90) {pieces.push(qua.rotate([ 0, 0, a ]));}if (sli > 0) {let slc = qua.subtract(cub.rotate([ 0, 0, sli ]));pieces.push(slc.rotate([ 0, 0, a ]));}return Manifold.union(pieces);};
   let padd = function(pa, pb) { return pa.map((n, i) => n + pb[i]); };
@@ -15,10 +15,12 @@ var Manowar = (function() {"use strict";this.VERSION = '0.9.0';let self = this;
   let bezierPoints = function(controlPoints, sampleCount) {let a = [];for (let t = 0, d = 1.0 / sampleCount; t <= 1.0; t += d) {a.push(bezierPoint(controlPoints, t, 0, [ 0, 0, 0 ]));}return a;};
   let chainedHulls = function(elts) {let r = [];for (let i = 0, l = elts.length - 1; i < l; i++) {r.push(Manifold.hull([ elts[i], elts[i + 1] ]));}return r;};
   let chainedHull = function(elts) {return Manifold.union(chainedHulls(elts));};
+  let radiatedHull = function(hubElt, elts) {let hulls = [];for (let i = 0, l = elts.length - 1; i < l; i++) {hulls.push(Manifold.hull(hubElt, elts[i], elts[i + 1]));}return Manifold.union(hulls);};
   this.slicedCylinder = slicedCylinder;
   this.bezierPoints = bezierPoints;
   this.chainedHulls = chainedHulls;
-  this.chainedHull = chainedHull;return this;
+  this.chainedHull = chainedHull;
+  this.radiatedHull = radiatedHull;return this;
 }).apply({}); // end Manowar 0.9.0
 
 
@@ -28,7 +30,7 @@ const t_width = 25;
 const t_height = 25;
 const t_waist = t_width / 3;
 const bar_thickness = t_height / 6;
-const pt_radius = 0.1;
+const pt_radius = 0.5;
 const csegs = 36;
 
 const h = 2.0;
@@ -43,13 +45,19 @@ const northWest = pnt.translate([ -w2, 0, 0 ]);
 const nw_f = [ -w2, -h3, 0 ];
 const cp = [ -0.75 * w2, - 0.5 * h3, 0 ];
 const pit = [ - t_waist / 2, -bar_thickness, 0 ];
+const south = cub.translate([ 0, -t_height, 0 ]);
+const southWest = pnt.translate([ -w2, -t_height, 0 ]);
+const heel = [ - t_waist / 2, - 2/3 * t_height, 0 ];
 
 let under = Manowar.bezierPoints([ nw_f, cp, pit ], 6);
 let underPnts = under.map(p => pnt.translate(p));
 underPnts.push(north);
-underPnts.push(northWest);
-underPnts.push(underPnts[0]);
-let underHull = Manowar.chainedHull(underPnts);
+//underPnts.push(northWest);
+//underPnts.push(underPnts[0]);
+//let underHull = Manowar.chainedHull(underPnts);
+let northHull = Manowar.radiatedHull(northWest, underPnts);
+let trunkHull = hull(north, pnt.translate(pit), south);
+let southHull = hull(south, southWest, pnt.translate(heel));
 
-export default underHull;
+export default union(northHull, trunkHull, southHull);
 
