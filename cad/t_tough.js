@@ -37,27 +37,41 @@ const h = 2.0;
 const w2 = t_width / 2;
 const h3 = t_height / 3;
 
-const pnt = cylinder(h, pt_radius, pt_radius, csegs, true);
+const cyl = cylinder(h, pt_radius, pt_radius, csegs, true);
 const cub = cube([ 2 * pt_radius, 2 * pt_radius, h ], true);
 
-const north = cub;
-const northWest = pnt.translate([ -w2, 0, 0 ]);
-const nw_f = [ -w2, -h3, 0 ];
-const cp = [ -0.75 * w2, - 0.5 * h3, 0 ];
-const pit = [ - t_waist / 2, -bar_thickness, 0 ];
-const south = cub.translate([ 0, -t_height, 0 ]);
-const southWest = pnt.translate([ -w2, -t_height, 0 ]);
-const heel = [ - t_waist / 2, - 2/3 * t_height, 0 ];
+let pts = {
+  north: [ 0, 0, 0 ],
+  northWest: [ -w2, 0, 0 ],
+  northWestSouth: [ -w2, -h3, 0 ],
+  northWestControl: [ -0.75 * w2, -0.5 * h3, 0 ],
+  northPit: [ -0.5 * t_waist, -bar_thickness, 0 ],
+  south: [ 0, -t_height, 0 ],
+  southWest: [ -0.9 * w2, -t_height, 0 ],
+  southHeel: [ -0.5 * t_waist, -2/3 * t_height, 0 ],
+  southWestControl: [ -0.53 * t_waist, -11/12 * t_height, 0 ],
+    };
 
-let under = Manowar.bezierPoints([ nw_f, cp, pit ], 6);
-let underPnts = under.map(p => pnt.translate(p));
-underPnts.push(north);
-//underPnts.push(northWest);
-//underPnts.push(underPnts[0]);
-//let underHull = Manowar.chainedHull(underPnts);
-let northHull = Manowar.radiatedHull(northWest, underPnts);
-let trunkHull = hull(north, pnt.translate(pit), south);
-let southHull = hull(south, southWest, pnt.translate(heel));
+let elts = Object.entries(pts).reduce(
+  function(h, [ k, v ]) { h[k] = cyl.translate(v); return h; },
+  {});
+elts.north = cub; // ;-)
+elts.south = cub.translate(pts.south);
 
-export default union(northHull, trunkHull, southHull);
+pts.under = Manowar.bezierPoints(
+  [ pts.northWestSouth, pts.northWestControl, pts.northPit ], 6);
+elts.under = pts.under.map(p => cyl.translate(p));
+
+pts.foot = Manowar.bezierPoints(
+  [ pts.southWest, pts.southWestControl, pts.southHeel ], 6);
+elts.foot = pts.foot.map(p => cyl.translate(p));
+
+let northWestHull = Manowar.radiatedHull(elts.northWest, elts.under);
+let northHull = hull(elts.northWest, elts.northPit, elts.north);
+
+let trunkHull = hull(elts.north, elts.south, elts.northPit, elts.southHeel);
+
+let southWestHull = Manowar.radiatedHull(elts.south, elts.foot);
+
+export default union(northWestHull, northHull, trunkHull, southWestHull);
 
