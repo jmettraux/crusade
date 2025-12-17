@@ -48,13 +48,12 @@ let pts = {
   northPit: [ -0.5 * t_waist, -bar_thickness, 0 ],
   south: [ 0, -t_height, 0 ],
   southWest: [ -0.9 * w2, -t_height, 0 ],
-  southHeel: [ -0.5 * t_waist, -2/3 * t_height, 0 ],
-  southWestControl: [ -0.53 * t_waist, -11/12 * t_height, 0 ],
+  southHeel: [ -0.5 * t_waist, -0.8 * t_height, 0 ],
+  southWestControl: [ -0.53 * t_waist, -0.92 * t_height, 0 ],
     };
 
-let elts = Object.entries(pts).reduce(
-  function(h, [ k, v ]) { h[k] = cyl.translate(v); return h; },
-  {});
+let elts = Object.entries(pts)
+  .reduce(function(h, [ k, v ]) { h[k] = cyl.translate(v); return h; }, {});
 elts.north = cub; // ;-)
 elts.south = cub.translate(pts.south);
 
