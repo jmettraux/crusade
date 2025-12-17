@@ -28,7 +28,7 @@ const { cube, cylinder, hull, union } = Manifold;
 
 const t_width = 25;
 const t_height = 25;
-const t_waist = t_width / 3;
+const t_waist = t_width / 4;
 const bar_thickness = t_height / 6;
 const pt_radius = 0.5;
 const csegs = 36;
@@ -73,5 +73,7 @@ let trunkHull = hull(elts.north, elts.south, elts.northPit, elts.southHeel);
 
 let southWestHull = Manowar.radiatedHull(elts.south, elts.foot);
 
-export default union(northWestHull, northHull, trunkHull, southWestHull);
+let left = union(northWestHull, northHull, trunkHull, southWestHull);
+
+export default left.add(left.mirror([ 1, 0, 0 ]));
 
