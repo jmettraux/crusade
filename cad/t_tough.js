@@ -29,7 +29,7 @@ const { cube, cylinder, hull, union } = Manifold;
 const t_width = 25;
 const t_height = 25;
 const t_waist = t_width / 4;
-const bar_thickness = t_height / 6;
+const bar_thickness = 0.1 * t_height;
 const pt_radius = 0.5;
 const csegs = 36;
 
@@ -47,9 +47,9 @@ let pts = {
   northWestControl: [ -0.75 * w2, -0.5 * h3, 0 ],
   northPit: [ -0.5 * t_waist, -bar_thickness, 0 ],
   south: [ 0, -t_height, 0 ],
-  southWest: [ -0.9 * w2, -t_height, 0 ],
-  southHeel: [ -0.5 * t_waist, -0.8 * t_height, 0 ],
-  southWestControl: [ -0.53 * t_waist, -0.92 * t_height, 0 ],
+  southWest: [ -0.7 * w2, -t_height, 0 ],
+  southHeel: [ -0.5 * t_waist, -0.85 * t_height, 0 ],
+  southWestControl: [ -0.53 * t_waist, -0.95 * t_height, 0 ],
     };
 
 let elts = Object.entries(pts)
