@@ -1,7 +1,7 @@
 
 // t_tough.js
 
-import { Manifold } from 'manifold-3d/manifoldCAD';
+import { Manifold, show } from 'manifold-3d/manifoldCAD';
 
 // ** manowar 0.9.0 **
 // 9c075bbb4b583986ad6a4fd64364b06fea8e7854
@@ -26,19 +26,20 @@ var Manowar = (function() {"use strict";this.VERSION = '0.9.0';let self = this;
 
 const { cube, cylinder, hull, union } = Manifold;
 
-const t_width = 25;
-const t_height = 25;
+const t_width = 21;
+const t_height = 21;
 const t_waist = t_width / 4;
 const bar_thickness = 0.1 * t_height;
 const pt_radius = 0.5;
 const csegs = 36;
+const token_radius = 32 / 2;
 
-const h = 2.0;
+const h = 2.8;
 const w2 = t_width / 2;
 const h3 = t_height / 3;
 
-const cyl = cylinder(h, pt_radius, pt_radius, csegs, true);
-const cub = cube([ 2 * pt_radius, 2 * pt_radius, h ], true);
+const cyl = cylinder(1.1 * h, pt_radius, pt_radius, csegs, true);
+const cub = cube([ 2 * pt_radius, 2 * pt_radius, 1.1 * h ], true);
 
 let pts = {
   north: [ 0, 0, 0 ],
@@ -72,7 +73,15 @@ let trunkHull = hull(elts.north, elts.south, elts.northPit, elts.southHeel);
 
 let southWestHull = Manowar.radiatedHull(elts.south, elts.foot);
 
-let left = union(northWestHull, northHull, trunkHull, southWestHull);
+let left =
+  union(northWestHull, northHull, trunkHull, southWestHull)
+    .subtract(
+      cube([ 0.06 * t_width, 0.5 * t_height, 1.2 * h ], true)
+        .translate([ -0.18 * t_width, -0.2 * t_height, 0 ]));
 
-export default left.add(left.mirror([ 1, 0, 0 ]));
+
+let t = left.add(left.mirror([ 1, 0, 0 ]))
+  .translate([ 0, 0.42 * t_height, 0 ]);
+
+export default cylinder(h, token_radius, token_radius, csegs, true).subtract(t);
 
