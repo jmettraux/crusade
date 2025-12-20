@@ -26,13 +26,13 @@ var Manowar = (function() {"use strict";this.VERSION = '0.9.0';let self = this;
 
 const { cube, cylinder, hull, union } = Manifold;
 
-const t_width = 21;
-const t_height = 21;
+const t_width = 17.0;
+const t_height = t_width;
 const t_waist = t_width / 4;
 const bar_thickness = 0.1 * t_height;
 const pt_radius = 0.5;
 const csegs = 36;
-const token_radius = 32 / 2;
+const token_radius = 25.0 / 2;
 
 const h = 2.8;
 const w2 = t_width / 2;
