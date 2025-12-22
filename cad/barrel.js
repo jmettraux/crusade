@@ -2,7 +2,8 @@
 // barrel.js
 
 import { Manifold, show } from 'manifold-3d/manifoldCAD';
-const { cylinder } = Manifold;
+const { cylinder, cube } = Manifold;
+const { union } = Manifold;
 
 const height = 16;
 const radius = 11 / 2;
@@ -21,7 +22,7 @@ let barrel = function() {
     cylinder(rh, radius, radius, csegs, false)
       .subtract(cylinder(1.1 * rh, r0, r0, csegs, false));
   let bung =
-    show(cylinder(rh, r0 / 10, r0 / 10, csegs, false));
+    cylinder(rh, r0 / 10, r0 / 10, csegs, false);
 
   return core
     .add(rib.translate([ 0, 0, -dz1 ]))
@@ -31,5 +32,13 @@ let barrel = function() {
     .add(bung.translate([ 0.7 * radius, 0, 0.97 * height ]));
 }();
 
-export default barrel;
+let half =
+  cube([ 2.0 * radius, 2.0 * radius, 1.1 * height ])
+    .translate([ -radius, 0, -0.05 * height ]);
+let west = barrel.subtract(half.translate([ 0, 0, 0 ]));
+let east = barrel.subtract(half.translate([ 0, -2 * radius, 0 ]));
+
+export default union(
+  west.rotate([ 0, 0, -90 ]),
+  east.rotate([ 0, 0, 90 ]).translate([ 0, 2.05 * radius, 0 ]));
 
