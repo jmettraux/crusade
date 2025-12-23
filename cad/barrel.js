@@ -22,7 +22,7 @@ let barrel = function() {
     cylinder(rh, radius, radius, csegs, false)
       .subtract(cylinder(1.1 * rh, r0, r0, csegs, false));
   let bung =
-    cylinder(rh, r0 / 10, r0 / 10, csegs, false);
+    cylinder(rh, r0 / 5.6, r0 / 5.6, csegs, false);
 
   return core
     .add(rib.translate([ 0, 0, -dz1 ]))
