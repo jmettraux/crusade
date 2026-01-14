@@ -80,14 +80,14 @@ let cask = function() {
 
   let off = cylinder(offHeight, 0.90 * minRad, 0.95 * minRad, csegs, true);
 
-  let bung = cylinder(height / 21, 0.6, 0.6, csegs, true)
-    .translate([ 0.70 * minRad, 0, 0 ]);
+  let bung = cylinder(height / 21, 0.8, 0.8, csegs, true)
+    .translate([ 0.63 * minRad, 0, 0 ]);
 
   return hull(cs)
     .add(union(hs))
     .subtract(off.translate([ 0, 0, -0.5 * height ]))
     .subtract(off.translate([ 0, 0,  0.5 * height ]))
-    .add(bung.translate([ 0, 0, 0.5 * height - 0.5 * offHeight ]));
+    .add(bung.translate([ 0, 0, 0.5 * height - 0.4 * offHeight ]));
 };
 
 export default cask()
