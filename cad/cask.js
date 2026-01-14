@@ -35,6 +35,7 @@ const maxRad = 0.5 * 600 * scale;
 const minRad = 0.5 * 490 * scale;
 const cylHeight = 10 * scale;
 const hooHeight = height / 14;
+const offHeight = height / 16;
 const csegs = 2 * 2 * 36;
 
 let cask = function() {
@@ -76,7 +77,13 @@ let cask = function() {
       return a; },
     []);
 
-  return hull(cs).add(union(hs));
+
+  let off = cylinder(offHeight, 0.90 * minRad, 0.95 * minRad, csegs, true);
+
+  return hull(cs)
+    .add(union(hs))
+    .subtract(off.translate([ 0, 0, -0.5 * height ]))
+    .subtract(off.translate([ 0, 0,  0.5 * height ]));
 };
 
 export default cask();
