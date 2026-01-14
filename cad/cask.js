@@ -2,7 +2,7 @@
 // cask.js
 
 import { Manifold, show } from 'manifold-3d/manifoldCAD';
-const { cylinder } = Manifold;
+const { cylinder, cube } = Manifold;
 const { union, hull } = Manifold;
 
 // T+C scale is 1:56
@@ -61,8 +61,8 @@ let cask = function() {
     []);
 
   rs = [
-    { r0: 0.40, r1: 0.65, z: 0.16 },
-    { r0: 0.90, r1: 1.00, z: 0.50 },
+    { r0: 0.30, r1: 0.55, z: 0.11 },
+    { r0: 0.87, r1: 1.00, z: 0.50 },
     { r0: 1.10, r1: 1.15, z: 0.80 },
   ];
   let hs = rs.reduce(
@@ -80,11 +80,18 @@ let cask = function() {
 
   let off = cylinder(offHeight, 0.90 * minRad, 0.95 * minRad, csegs, true);
 
+  let bung = cylinder(height / 21, 0.6, 0.6, csegs, true)
+    .translate([ 0.70 * minRad, 0, 0 ]);
+
   return hull(cs)
     .add(union(hs))
     .subtract(off.translate([ 0, 0, -0.5 * height ]))
-    .subtract(off.translate([ 0, 0,  0.5 * height ]));
+    .subtract(off.translate([ 0, 0,  0.5 * height ]))
+    .add(bung.translate([ 0, 0, 0.5 * height - 0.5 * offHeight ]));
 };
 
-export default cask();
+export default cask()
+  .subtract(
+    cube([ 2.1 * maxRad, 2.1 * maxRad, 1.1 * height ], true)
+      .translate([ 0, 1.05 * maxRad, 0 ]));
 
