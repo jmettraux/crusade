@@ -30,10 +30,11 @@ const { union, hull } = Manifold;
 // * manhandling close to the front
 
 const scale = 1 / 56;
-const height = 840 * scale;
+const height = 900 * scale;
 const maxRad = 0.5 * 600 * scale;
-const minRad = 0.5 * 450 * scale;
+const minRad = 0.5 * 490 * scale;
 const cylHeight = 10 * scale;
+const hooHeight = height / 14;
 const csegs = 2 * 2 * 36;
 
 let cask = function() {
@@ -58,8 +59,24 @@ let cask = function() {
       return a; },
     []);
 
-  //return union(cs);
-  return hull(cs);
+  rs = [
+    { r0: 0.40, r1: 0.65, z: 0.16 },
+    { r0: 0.90, r1: 1.00, z: 0.50 },
+    { r0: 1.10, r1: 1.15, z: 0.80 },
+  ];
+  let hs = rs.reduce(
+    function(a, h) {
+      let r0 = minRad + h.r0 * (maxRad - minRad);
+      let r1 = minRad + h.r1 * (maxRad - minRad);
+      let s0 = cylinder(hooHeight, r0, r1, csegs, true);
+      let s1 = cylinder(hooHeight, r1, r0, csegs, true);
+      let z = - 0.5 * height + h.z * 0.5 * height;
+      a.push(s0.translate([ 0, 0,  z ]));
+      a.push(s1.translate([ 0, 0, -z ]));
+      return a; },
+    []);
+
+  return hull(cs).add(union(hs));
 };
 
 export default cask();
