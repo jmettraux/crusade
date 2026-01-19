@@ -36,6 +36,7 @@ const minRad = 0.5 * 490 * scale;
 const cylHeight = 10 * scale;
 const hooHeight = height / 14;
 const offHeight = height / 16;
+const bungRad = 1.0;
 const csegs = 2 * 2 * 36;
 
 let cask = function() {
@@ -61,9 +62,8 @@ let cask = function() {
     []);
 
   rs = [
-    { r0: 0.30, r1: 0.55, z: 0.11 },
-    { r0: 0.87, r1: 1.00, z: 0.50 },
-    { r0: 1.10, r1: 1.15, z: 0.80 },
+    { r0: 0.32, r1: 0.57, z: 0.06 },
+    { r0: 1.12, r1: 1.17, z: 0.63 },
   ];
   let hs = rs.reduce(
     function(a, h) {
@@ -80,8 +80,8 @@ let cask = function() {
 
   let off = cylinder(offHeight, 0.90 * minRad, 0.95 * minRad, csegs, true);
 
-  let bung = cylinder(height / 21, 0.8, 0.8, csegs, true)
-    .translate([ 0.63 * minRad, 0, 0 ]);
+  let bung = cylinder(height / 21, bungRad, bungRad, csegs, true)
+    .translate([ 0.60 * minRad, 0, 0 ]);
 
   return hull(cs)
     .add(union(hs))
