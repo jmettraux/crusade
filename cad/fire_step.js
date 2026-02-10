@@ -21,6 +21,7 @@ const step_length = 42;
 const step_height = 18;
 const box_height = 15;
 const box_depth = 18;
+const box_width = bd + 3 * o2;
 const step_depth = 25;
 const wall_height = 18;
 const thickness = 0.8;
@@ -28,9 +29,9 @@ const thickness = 0.8;
 let makeMagnetBox = function() {
 
   let d = box_depth;
-  let w = br + 3 * o2;
+  let w = box_width;
   let h = box_height;
-  let t2 = thickness;
+  let t2 = 2 * thickness;
 
   let box = cube([ d, w, h ], true);
   let chamber = cube([ d - t2, w - t2, h - t2 ], true);
@@ -41,7 +42,7 @@ let makeMagnetBox = function() {
 let makeStep = function() {
 
   let box = makeMagnetBox();
-  let box_dy = 0.5 * step_length - 0.5 * (br + 3 * o2);
+  let box_dy = 0.5 * step_length - 0.5 * box_width;
   let box_dx = 0.5 * (step_depth - box_depth);
   let wall_dx = 0.5 * step_depth - 0.5 * thickness;
   let wall_dz = 0.5 * (wall_height - box_height);
