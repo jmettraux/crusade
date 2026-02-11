@@ -59,10 +59,10 @@ let makeStep = function() {
   let member = cylinder(thickness, member_radius, member_radius, csegs, true);
 
   let hand = member
-    .translate([ -0.5 * step_depth, 0, 0.5 * (wall_height - thickness) ]);
+    .translate([ -0.5 * step_depth + 1, 0, 0.5 * (wall_height - thickness) ]);
   let foot = member
     .rotate([ 0, 90, 0 ])
-    .translate([ 0.5 * (step_depth - thickness), 0, -0.5 * wall_height ]);
+    .translate([ 0.5 * (step_depth - thickness), 0, -0.5 * wall_height + 1 ]);
 
   return union([
     wall,
