@@ -21,10 +21,12 @@ const step_length = 42;
 const step_height = 18;
 const box_height = 15;
 const box_depth = 18;
-const box_width = bd + 3 * o2;
-const step_depth = 25;
-const wall_height = 18;
 const thickness = 0.8;
+const box_width = bd + 4 * o2 + 2 * thickness;
+const step_depth = 25 - 0.5 * 6;
+//const wall_height = 18;
+const wall_height = box_height;
+//const member_radius = 4;
 
 let makeMagnetBox = function() {
 
@@ -51,7 +53,6 @@ let makeStep = function() {
     .translate([ wall_dx, 0, - wall_dz ]);
   let plank = cube([ step_depth, step_length, thickness ], true)
     .translate([ 0, 0, 0.5 * box_height - 0.5 * thickness ]);
-
 
   return union([
     wall,
