@@ -11,6 +11,8 @@ const { cylinder, cube, union } = Manifold;
 
 // unit is mm
 
+const csegs = 36;
+
 const o2 = 0.2;
 const bd = 5 + o2; // ball diameter
 const br = bd / 2;
@@ -26,7 +28,7 @@ const box_width = bd + 4 * o2 + 2 * thickness;
 const step_depth = 25 - 0.5 * 6;
 //const wall_height = 18;
 const wall_height = box_height;
-//const member_radius = 4;
+const member_radius = 4;
 
 let makeMagnetBox = function() {
 
@@ -54,9 +56,20 @@ let makeStep = function() {
   let plank = cube([ step_depth, step_length, thickness ], true)
     .translate([ 0, 0, 0.5 * box_height - 0.5 * thickness ]);
 
+  let member = cylinder(thickness, member_radius, member_radius, csegs, true);
+
+  let hand = member
+    .translate([ -0.5 * step_depth, 0, 0.5 * (wall_height - thickness) ]);
+  let foot = member
+    .rotate([ 0, 90, 0 ])
+    .translate([ 0.5 * (step_depth - thickness), 0, -0.5 * wall_height ]);
+
   return union([
     wall,
+    foot.translate([ 0, -0.25 * step_length, 0 ]),
+    foot.translate([ 0,  0.25 * step_length, 0 ]),
     plank,
+    hand,
     box.translate([ box_dx, -box_dy, 0 ]),
     box.translate([ box_dx,  box_dy, 0 ]),
       ]);
