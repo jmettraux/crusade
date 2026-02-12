@@ -6,7 +6,7 @@
 //
 
 import { Manifold, show } from 'manifold-3d/manifoldCAD';
-const { cylinder, cube, union } = Manifold;
+const { cylinder, cube, hull, union } = Manifold;
 
 
 // unit is mm
@@ -60,9 +60,14 @@ let makeStep = function() {
 
   let hand = member
     .translate([ -0.5 * step_depth + 1, 0, 0.5 * (wall_height - thickness) ]);
-  let foot = member
-    .rotate([ 0, 90, 0 ])
-    .translate([ 0.5 * (step_depth - thickness), 0, -0.5 * wall_height + 1 ]);
+
+  let m2 = member.rotate([ 0, 90, 0 ]);
+
+  let foot =
+    hull(
+      m2.translate([ 0, 0, 0 ]),
+      m2.translate([ 0, 0, member_radius ]))
+    .translate([ 0.5 * (step_depth - thickness), 0, -0.5 * wall_height - 1.5 ]);
 
   return union([
     wall,
