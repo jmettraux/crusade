@@ -20,14 +20,15 @@ const br = bd / 2;
 //const chamberHeight = chamberRadius + 2;
 
 const step_length = 42;
+//const step_length = 42 / 2;
 const step_height = 18;
-const box_height = 15;
+const box_height = 12;
 const box_depth = 16;
 const thickness = 0.8;
 const box_width = bd + 4 * o2 + 2 * thickness;
 const step_depth = 23 - 0.5 * 6;
-//const wall_height = 18;
-const wall_height = box_height;
+const wall_height = 15;
+//const wall_height = box_height;
 const member_radius = 4;
 
 let makeMagnetBox = function() {
@@ -50,16 +51,16 @@ let makeStep = function() {
   let box_dx = 0.5 * (step_depth - box_depth);
   let wall_dx = 0.5 * step_depth - 0.5 * thickness;
   let wall_dz = 0.5 * (wall_height - box_height);
+  let plank_dz = 0.5 * box_height - 0.5 * thickness;
 
   let wall = cube([ thickness, step_length, wall_height ], true)
     .translate([ wall_dx, 0, - wall_dz ]);
   let plank = cube([ step_depth, step_length, thickness ], true)
-    .translate([ 0, 0, 0.5 * box_height - 0.5 * thickness ]);
+    .translate([ 0, 0, plank_dz ]);
 
   let member = cylinder(thickness, member_radius, member_radius, csegs, true);
 
-  let hand = member
-    .translate([ -0.5 * step_depth + 1, 0, 0.5 * (wall_height - thickness) ]);
+  let hand = member.translate([ -0.5 * step_depth + 1, 0, plank_dz ]);
 
   let m2 = member.rotate([ 0, 90, 0 ]);
 
