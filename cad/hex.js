@@ -42,15 +42,16 @@ var Manowar = (function() {
 
 
 let slice = Manowar.slicedCylinder(3, 160, 160, 60, 6, true);
+slice = slice.add(slice.rotate([ 0, 0, 60 ]));
 
 let r1 = 160 / 5;
 
 let plus = cylinder(3, r1 - o2, r1 - o2, 6, true)
   .translate([ 160 / 2, 0, 0 ]);
 
-let minus = cylinder(4, r1, r1, 6, true)
+let minus = cylinder(4, r1 + o2, r1 + o2, 6, true)
   .translate([ 160 / 2, 0, 0 ])
-  .rotate([ 0, 0, 60 ]);
+  .rotate([ 0, 0, 120 ]);
 
 
 //export default cylinder(3, 160, 160, 6, true);
