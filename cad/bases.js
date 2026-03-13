@@ -36,9 +36,9 @@ const magnetHole = function() {
   let tr = mr + 3.5 * o2;
 
   let tube = cylinder(height, tr, tr, csegs, true);
-  let hole = cylinder(magnet_height + 1, mr, mr, csegs, true);
+  let hole = cylinder(2 * magnet_height, mr, mr, csegs, true);
 
-  return tube.subtract(hole.translate([ 0, 0, -1 ]));
+  return tube.subtract(hole.translate([ 0, 0, -magnet_height ]));
 };
 
 const rom = { thk: 3.5 * o2, hei: 3.5 };
@@ -122,5 +122,5 @@ console.log(`ROMA: ${s.r}`);
 };
 
 //export default magnetHole();
-export default base('M');
+export default base('L');
 
